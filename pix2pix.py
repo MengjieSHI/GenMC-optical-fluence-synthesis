@@ -215,11 +215,11 @@ def train(d_model, g_model, gan_model, dataset, n_epochs=5, n_batch=1):
     # manually enumerate epochs
     for i in range(n_steps):
         # select a batch of fake samples
-        [X_realA, X_realB], y_real = generate_real_samples(trainA,trainB, n_batch, n_patch)
+        [X_realA, X_realB], y_real = generate_real_samples(trainA,trainB, n_batch, n_patch) # y_real is label, x_realA is the input while x_realB is the output
         # generate a batch of fake samples
         X_fakeB, y_fake = generate_fake_samples(g_model, X_realA, n_patch)
         # update discriminator for real samples
-        d_loss1 = d_model.train_on_batch([X_realA, X_realB], y_real)
+        d_loss1 = d_model.train_on_batch([X_realA, X_realB], y_real) # train D with a real sample and fake sample sequentially
         # update discriminator for generated samples
         d_loss2= d_model.train_on_batch([X_realA, X_fakeB], y_fake)
         # update the generator
