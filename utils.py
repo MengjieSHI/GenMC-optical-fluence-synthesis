@@ -42,8 +42,17 @@ def load_mat_data(file_path, tarName, srcName):
 # np.savez_compressed(filename, src_images, tar_images)
 # print('Data saved:', filename)
 
+def show_tensor_images(image_tensor):
+    '''
+    Function for visualising images in tensor format: given a tensor of images, number of images, and size
+    per image, plots and prints the images in an uniform grid
+    '''
+    image_unflat = image_tensor.detach().cpu()
+    pyplot.imshow(image_unflat[0, 0, :, :].rot90(3), cmap='viridis')
+    pyplot.show()
 
 
+if __name__ == '__main__':
 # check if data is saved successfully
 data = np.load('C:/Users/msh21/PycharmProjects/GenMC-data-model/training data/dataset_2604_500_256.npz')
 src_images, tar_images = data['arr_0'], data['arr_1']
