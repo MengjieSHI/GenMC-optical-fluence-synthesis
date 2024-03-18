@@ -63,7 +63,7 @@ for epoch in range(args.epochs):
         d_optimizer.step()
 
         # batch losses
-        generator_loss += g_loss.item()
+        generator_loss += g_loss.item() 
         discriminator_loss += d_loss.item()
         bar.next()
     bar.finish()
