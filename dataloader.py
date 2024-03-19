@@ -5,7 +5,6 @@ import numpy as np
 
 
 
-
 class NPZDataset(Dataset):
     def __init__(self, path:str, transform=None):
         self.path = path

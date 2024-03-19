@@ -9,43 +9,6 @@ from pix2pix_torch import UnetGenerator, Discriminator
 from loss import GeneratorLoss, DiscriminatorLoss
 from utils import show_tensor_images
 
-#
-parser = argparse.ArugmentParser(prog='train', description='Train pix2pix')
-parser.add_argument("--epochs", type=int, default=200, help='number of epochs')
-parser.add_argument("--dataset", type=str, default="256_data", help="number of datasets")
-parser.add_argument("--batch_size", type=int, default=1, help="batch size")
-parser.add_argument("--lr", type=int, default=0.0002, help="learning rate")
-parser.add_argument("--bilinear", action="store_true", default=True, help='Use bilinear upsampling')
-args = parser.parse_args()
-
-device = ('cuda:0' if torch.cuda.is_available() else 'cup')
-
-# models
-print('Initise models')
-generator = UnetGenerator().to(device)
-discriminator = Discriminator().to(device)
-unet_model = UNET(n_channels=3, n_classes=1, bilinear = args.bilinear)
-
-# optimizers
-g_optimizer = torch.optim.Adam(generator.parameters(), lr=args.lr, betas=(0.5, 0.999))
-d_optimizer = torch.optim.Adam(discriminator.parameters(), lr=args.lr, betas=(0.5, 0.999))
-unet_optimizer = torch.optim.Adam(unet.parameters(), lr=args.lr, betas=(0.5, 0.999))
-
-
-# loss
-# loss for pix2pix
-g_criterion = GeneratorLoss(alpha=100)
-d_criterion = DiscriminatorLoss()
-# loss for unet
-unet_criterion = torch.nn.MSELoss()
-
-# dataloader
-dir_npz = './data128/' # the name of the folder to put all data
-dataset = NPZDataset(dir_npz)
-dataloader = DataLoader(dataset, batch_size=8, shuffle=True, num_workers=4)
-
-# logger initialisation: defined seperately
-# logger = Logger(filename=args.dataset)
 
 # GAN (pix2pix, pix2pixHD)
 def trainGAN(dataloader, models, optimizers, schedulers, device):
@@ -113,20 +76,77 @@ def trainGAN(dataloader, models, optimizers, schedulers, device):
         d_loss_all = 0
 
         # this part needs optimisation
-        #if (epoch + 1) % 5 == 0:
-            #show_tensor_images(x_fake.to(targets.dtype))
-            #show_tensor_images(x_real)
+        if (epoch + 1) % 5 == 0:
+            show_tensor_images(x_fake.to(targets.dtype))
+            show_tensor_images(x_real)
         epoch_g_losses.append(mean_g_loss)
         epoch_g_losses.append(mean_d_loss)
 
         #g_scheduler.step()
         #d_scheduler.step()
 
-
     #logger.close()
     print('Training End')
 
 # train UNET
-# def trainUNET()
+def trainUNET(dataloader, model, optimizer, scheduler, device):
+
+    cur_step = 0
+    display_step = 100
+
+    loss_all = 0.0
+    mean_loss = 0.0
+    epoch_losses = []
+
+    for index, (targets, labels) in tqdm(enumerate(dataloader), total=len(dataloader), position=0)
+        targets = targets.to(device)
+        labels = labels.to(device)
+
+        loss = 
+
+
+
+
+
+
 # train diffusion models
 # TBD
+
+
+
+#
+parser = argparse.ArugmentParser(prog='train', description='Train pix2pix')
+parser.add_argument("--epochs", type=int, default=200, help='number of epochs')
+parser.add_argument("--dataset", type=str, default="256_data", help="number of datasets")
+parser.add_argument("--batch_size", type=int, default=1, help="batch size")
+parser.add_argument("--lr", type=int, default=0.0002, help="learning rate")
+parser.add_argument("--bilinear", action="store_true", default=True, help='Use bilinear upsampling')
+args = parser.parse_args()
+
+device = ('cuda:0' if torch.cuda.is_available() else 'cup')
+
+# loading data
+dir_npz = './data128/' # the name of the folder to put all data
+dataset = NPZDataset(dir_npz)
+dataloader = DataLoader(dataset, batch_size=8, shuffle=True, num_workers=4)
+
+# models
+print('Initise models')
+generator = UnetGenerator().to(device)
+discriminator = Discriminator().to(device)
+
+# optimizers
+g_optimizer = torch.optim.Adam(generator.parameters(), lr=args.lr, betas=(0.5, 0.999))
+d_optimizer = torch.optim.Adam(discriminator.parameters(), lr=args.lr, betas=(0.5, 0.999))
+
+# loss
+# loss for pix2pix
+g_criterion = GeneratorLoss(alpha=100)
+d_criterion = DiscriminatorLoss()
+
+# logger initialisation: defined seperately
+# logger = Logger(filename=args.dataset)
+
+unet_model = UNET(n_channels=3, n_classes=1, bilinear = args.bilinear)
+unet_optimizer = torch.optim.Adam(unet.parameters(), lr=args.lr, betas=(0.5, 0.999))
+unet_criterion = torch.nn.MSELoss()
