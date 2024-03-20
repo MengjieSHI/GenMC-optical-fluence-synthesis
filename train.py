@@ -97,18 +97,34 @@ def trainUNET(dataloader, model, optimizer, scheduler, device):
     loss_all = 0.0
     mean_loss = 0.0
     epoch_losses = []
+    for epoch in range(args.epochs):
+        for index, (targets, labels) in tqdm(enumerate(dataloader), total=len(dataloader), position=0)
+            targets = targets.to(device)
+            labels = labels.to(device)
 
-    for index, (targets, labels) in tqdm(enumerate(dataloader), total=len(dataloader), position=0)
-        targets = targets.to(device)
-        labels = labels.to(device)
+            loss = nn.MSE() # not sure if this is the correct form
 
-        loss = 
+            optimizer.zero_grad()
+            optimizer.backward()
+            optimizer.step()
 
+            loss_all += loss.item()
 
+        mean_loss = loss_all / (index + 1)
+        # count timeframe
+        end = time.time()
+        tm = (end - start)
+        print("[Epoch %d/%d] [loss: %.3f] ETA:%.3fs" % (
+        epoch + 1, args.epochs, mean_loss, tm))
 
+        if (epoch + 1) % 5 == 0:
+            show_tensor_images(x_fake.to(targets.dtype))
+            show_tensor_images(x_real)
 
-
-
+        epoch_losses.append(mean_loss)
+        loss_all = 0
+    print('train end')
+    
 # train diffusion models
 # TBD
 
