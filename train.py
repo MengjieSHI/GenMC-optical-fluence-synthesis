@@ -124,7 +124,7 @@ def trainUNET(dataloader, model, optimizer, scheduler, device):
         epoch_losses.append(mean_loss)
         loss_all = 0
     print('train end')
-    
+
 # train diffusion models
 # TBD
 
