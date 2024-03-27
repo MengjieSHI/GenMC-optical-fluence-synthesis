@@ -59,3 +59,14 @@ class GlobalGenerator(nn.Module):
                 nn.ReLU(inplace=True),
             ]
             channels *= 2
+        # residual blocks
+        for _ in range(res_blocks):
+            g1 += [ResidualBlock(channels)]
+        # backend blocks
+        for _ in range(fb_blocks):
+            g1 += [
+                nn.ConvTranspose2d(channels, channels//2, kernel_size=3,  stride=2, padding=1, output_padding=1),
+                nn.InstanceNorm2d(channels//2, affine=False)
+                nn.ReLU(inplace=True),
+            ]
+            channels //=2
