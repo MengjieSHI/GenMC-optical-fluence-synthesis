@@ -2,7 +2,7 @@ import torch
 from torch import nn
 from torch.utils.data import DataLoader
 import time
-import argparse
+import config
 import tqdm
 #from progress.bar import IncrementalBar # discard this use tqdm
 
@@ -229,51 +229,51 @@ def trainUNET(dataloader, model, optimizer, loss_fn, device):
 
 
 
-#
-parser = argparse.ArugmentParser(prog='train', description='model training')
-parser.add_argument("--epochs", type=int, default=200, help='number of epochs')
-parser.add_argument("--dataset", type=str, default="256_data", help="number of datasets")
-parser.add_argument("--batch_size", type=int, default=1, help="batch size")
-parser.add_argument("--lr", type=int, default=0.0002, help="learning rate")
-parser.add_argument("--lr_lambda", type=int, default=1, help="scheduler decay rate")
-parser.add_argument("--bilinear", action="store_true", default=True, help='Use bilinear upsampling')
-parser.add_argument("--model",type=str, default="pix2pix", help="name of models")
-args = parser.parse_args()
+# hyperparemeters 
+opt = config.get_options()
 
-device = ('cuda:0' if torch.cuda.is_available() else 'cup')
+model = opt.model 
+lr = opt.lr 
+lr_lambda = opt.lr_lambda 
+bi = opt.bilinear 
 
-# loading data
-dir_npz = './data256/' # the name of the folder to put all data
-dataset = NPZDataset(dir_npz)
-dataloader = DataLoader(dataset, batch_size=8, shuffle=True, num_workers=4)
 
-# models
-print('Initise models')
-if args.model == 'pix2pix':
+if __name__ == '__main__':
 
-    generator = UnetGenerator().to(device)
-    discriminator = Discriminator().to(device)
+    device = ('cuda:0' if torch.cuda.is_available() else 'cup')
 
-    # optimizers
-    g_optimizer = torch.optim.Adam(generator.parameters(), lr=args.lr, betas=(0.5, 0.999))
-    d_optimizer = torch.optim.Adam(discriminator.parameters(), lr=args.lr, betas=(0.5, 0.999))
+    # loading data
+    dir_npz = './data256/' # the name of the folder to put all data
+    dataset = NPZDataset(dir_npz)
+    dataloader = DataLoader(dataset, batch_size=8, shuffle=True, num_workers=4)
 
-    # schedulers 
-    g_schedulers = torch.optim.lr_scheduler.LambdaLR(g_optimizer, lr_lambda=args.lr_lamba)
-    d_schedulers = torch.optim.lr_scheduler.LambdaLR(d_optimizer, lr_lambda=args.lr_lamda)
+    # models
+    print('Initise models')
+    if model == 'pix2pix':
 
-    # loss
-    g_criterion = GeneratorLoss(alpha=100)
-    d_criterion = DiscriminatorLoss()
+        generator = UnetGenerator().to(device)
+        discriminator = Discriminator().to(device)
 
-    # logger initialisation: defined seperately
-    # logger = Logger(filename=args.dataset)
+        # optimizers
+        g_optimizer = torch.optim.Adam(generator.parameters(), lr, betas=(0.5, 0.999))
+        d_optimizer = torch.optim.Adam(discriminator.parameters(), lr, betas=(0.5, 0.999))
 
-    trainPix2Pix(dataloader, [generator, discriminator], [g_optimizer, d_optimizer], [g_schedulers, d_schedulers], [g_criterion, d_criterion], device)
+        # schedulers 
+        g_schedulers = torch.optim.lr_scheduler.LambdaLR(g_optimizer, lr_lambda)
+        d_schedulers = torch.optim.lr_scheduler.LambdaLR(d_optimizer, lr_lambda)
 
-if args.model == 'unet ':
+        # loss
+        g_criterion = GeneratorLoss(alpha=100)
+        d_criterion = DiscriminatorLoss()
 
-    unet_model = UNET(n_channels=3, n_classes=1, bilinear = args.bilinear)
-    unet_optimizer = torch.optim.Adam(unet_model.parameters(), lr=args.lr, betas=(0.5, 0.999))
-    unet_criterion = torch.nn.MSELoss()
-    trainUNET(dataloader, unet_model, unet_optimizer, unet_criterion, device)
+        # logger initialisation: defined seperately
+        # logger = Logger(filename=args.dataset)
+
+        trainPix2Pix(dataloader, [generator, discriminator], [g_optimizer, d_optimizer], [g_schedulers, d_schedulers], [g_criterion, d_criterion], device)
+
+    if model == 'unet ':
+
+        unet_model = UNET(n_channels=3, n_classes=1, bilinear=bi)
+        unet_optimizer = torch.optim.Adam(unet_model.parameters(), lr, betas=(0.5, 0.999))
+        unet_criterion = torch.nn.MSELoss()
+        trainUNET(dataloader, unet_model, unet_optimizer, unet_criterion, device)
