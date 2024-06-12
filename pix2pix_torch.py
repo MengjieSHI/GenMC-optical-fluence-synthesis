@@ -6,13 +6,13 @@ from torch.nn import functional as F
 
 class EncoderBlock(nn.Module):
 
-    def __init__(self, input_nc, output_nc, norm_layer=True):
+    def __init__(self, input_nc, output_nc):
         super(EncoderBlock, self).__init__()
-        self.conv = nn.Conv2d(input_nc, output_nc, kernel_size=4, stride=2, padding='same')
+        self.conv = nn.Conv2d(input_nc, output_nc, kernel_size=4, stride=2, padding=1)
         self.bn = nn.BatchNorm2d()
         self.leakyrelu = nn.LeakyReLU(0.2, inplace=True)
 
-    def forward(self, x):
+    def forward(self, x, norm_layer=True):
         if norm_layer:
             a = self.bn(self.conv(x))
         a = self.conv(x)
@@ -20,7 +20,7 @@ class EncoderBlock(nn.Module):
 
 class DecoderBlock(nn.Module):
 
-    def __init__(self, input_nc, output_nc, norm_layer=True, drop_out=True):
+    def __init__(self, input_nc, output_nc):
         super(DecoderBlock, self).__init__()
         self.conv = nn.Conv2d(input_nc, output_nc, kernel_size=3, stride=1, padding='same')
         self.upsampling2d = nn.UpsamplingBilinear2d(size=2)
@@ -32,7 +32,7 @@ class DecoderBlock(nn.Module):
         self.dropout = nn.Dropout2d(p=0.2, inplace=True)
         self.leakyrelu = nn.LeakyReLU(0.2, inplace=True)
 
-    def forward(self, x):
+    def forward(self, x, drop_out=True):
         a = self.bn(self.upsampling2d(self.conv(x)))
         if drop_out:
             return self.leakyrelu(self.dropout(a))
@@ -47,7 +47,7 @@ class UnetGenerator(nn.Module):
         self.encoder3 = EncoderBlock(128, 256)
         self.encoder4 = EncoderBlock(256, 512)
         self.encoder5 = EncoderBlock(512, 512)
-        self.encoder6 = nn.Conv2d(512, 512, kernel_size=4, stride=2, padding='same')
+        self.encoder6 = nn.Conv2d(512, 512, kernel_size=4, stride=2, padding=1)
         self.relu1 = nn.ReLU(inplace=True)
 
         self.decoder1 = DecoderBlock(512, 512)
@@ -82,13 +82,13 @@ class UnetGenerator(nn.Module):
         return output
 
 class BasicBlock(nn.Module):
-    def __init__(self, input_nc, output_nc, norm_layer=True):
+    def __init__(self, input_nc, output_nc):
         super().__init__()
-        self.conv = nn.Conv2d(input_nc, output_nc, kernel_size=4, stride=2, padding='same')
+        self.conv = nn.Conv2d(input_nc, output_nc, kernel_size=4, stride=2, padding=1)
         self.bn = nn.BatchNorm2d()
         self.leakyrelu = nn.LeakyReLU(0.2, inplace=True)
 
-    def forward(self, x):
+    def forward(self, x, norm_layer=True):
         if norm_layer:
             a = self.bn(self.conv(x))
         a = self.conv(x)
