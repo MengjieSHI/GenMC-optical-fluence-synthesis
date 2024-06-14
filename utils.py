@@ -53,37 +53,37 @@ def show_tensor_images(image_tensor):
 
 
 if __name__ == '__main__':
-# check if data is saved successfully
-data = np.load('C:/Users/msh21/PycharmProjects/GenMC-data-model/training data/dataset_2604_500_256.npz')
-src_images, tar_images = data['arr_0'], data['arr_1']
-# number of samples used for checking
-n_samples = 3
-n_properties = 3
-for i in range(n_samples):
-    ax = pyplot.subplot(n_properties+1, n_samples, 1+i)
-    pyplot.axis('off')
-    src_image=src_images[i]
-    pyplot.imshow(np.rot90(src_image[:,:,0], k=-1))
-    ax.set_title('absorption')
+    # check if data is saved successfully
+    data = np.load('C:/Users/msh21/PycharmProjects/GenMC-data-model/training data/dataset_2604_500_256.npz')
+    src_images, tar_images = data['arr_0'], data['arr_1']
+    # number of samples used for checking
+    n_samples = 3
+    n_properties = 3
+    for i in range(n_samples):
+        ax = pyplot.subplot(n_properties+1, n_samples, 1+i)
+        pyplot.axis('off')
+        src_image=src_images[i]
+        pyplot.imshow(np.rot90(src_image[:,:,0], k=-1))
+        ax.set_title('absorption')
 
-for i in range(n_samples):
-    ax = pyplot.subplot(n_properties+1, n_samples, 1+n_samples+i)
-    pyplot.axis('off')
-    src_image=src_images[i]
-    pyplot.imshow(np.rot90(src_image[:,:,1], k=-1))
-    ax.set_title('scattering')
+    for i in range(n_samples):
+        ax = pyplot.subplot(n_properties+1, n_samples, 1+n_samples+i)
+        pyplot.axis('off')
+        src_image=src_images[i]
+        pyplot.imshow(np.rot90(src_image[:,:,1], k=-1))
+        ax.set_title('scattering')
 
-for i in range(n_samples):
-    ax = pyplot.subplot(n_properties+1, n_samples, 1+2*n_samples+i)
-    pyplot.axis('off')
-    src_image=src_images[i]
-    pyplot.imshow(np.rot90(src_image[:,:,2], k=-1))
-    ax.set_title('Grunenisen')
+    for i in range(n_samples):
+        ax = pyplot.subplot(n_properties+1, n_samples, 1+2*n_samples+i)
+        pyplot.axis('off')
+        src_image=src_images[i]
+        pyplot.imshow(np.rot90(src_image[:,:,2], k=-1))
+        ax.set_title('Grunenisen')
 
-for i in range(n_samples):
-    ax = pyplot.subplot(n_properties+1, n_samples, 1+3*n_samples+i)
-    pyplot.axis('off')
-    pyplot.imshow(np.rot90(tar_images[i].squeeze(), k=-1))
-    ax.set_title('optical fluence')
+    for i in range(n_samples):
+        ax = pyplot.subplot(n_properties+1, n_samples, 1+3*n_samples+i)
+        pyplot.axis('off')
+        pyplot.imshow(np.rot90(tar_images[i].squeeze(), k=-1))
+        ax.set_title('optical fluence')
 
-pyplot.show()
+    pyplot.show()

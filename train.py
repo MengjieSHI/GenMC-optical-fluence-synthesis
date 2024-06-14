@@ -3,7 +3,7 @@ from torch import nn
 from torch.utils.data import DataLoader
 import time
 import config
-import tqdm
+from tqdm import tqdm
 #from progress.bar import IncrementalBar # discard this use tqdm
 
 from dataloader import NPZDataset
@@ -17,9 +17,8 @@ version = torch.__version__
 version = tuple(int(n) for n in version.split('.')[:-1])
 has_autocast = version >= (1,6)
 
-# GAN 
-
-def trainPix2Pix(dataloader, models, optimizers, schedulers, losses, device):
+# GAN
+def trainPix2Pix(train_loader, models, optimizers, schedulers, losses, epochs, device):
 
     generator, discriminator = models
     g_optimizer, d_optimizer = optimizers
@@ -35,9 +34,9 @@ def trainPix2Pix(dataloader, models, optimizers, schedulers, losses, device):
     epoch_g_losses = []
     epoch_d_losses = []
 
-    for epoch in range(args.epochs):
+    for epoch in range(epochs):
         start = time.time()
-        for index, (targets, labels) in tqdm(enumerate(dataloader), total=len(dataloader), position=0):
+        for index, (targets, labels) in tqdm(enumerate(train_loader), total=len(train_loader), position=0):
 
             targets = targets.to(device)
             labels = labels.to(device) # need to confirm whether the order is correct
@@ -46,7 +45,7 @@ def trainPix2Pix(dataloader, models, optimizers, schedulers, losses, device):
             if has_autocast:
                 with torch.cuda.amp.autocast(enabled=(device=='cuda')):
                     fake = generator(labels)
-                    fake_pred = discriminator(fake, targets)
+                    fake_pred = discriminator(fake, labels) # why twice?
                     g_loss = g_criterion(fake, targets, fake_pred)
 
                     fake = generator(labels).detach()
@@ -91,14 +90,14 @@ def trainPix2Pix(dataloader, models, optimizers, schedulers, losses, device):
         #logger.add_scalar('generator_loss', g_loss, epoch+1)
         #logger.add_scalar('discriminator_loss', d_loss, epoch+1)
         #logger.save_weights(generator.state_dict(), 'generator')
-        print("[Epoch %d/%d] [G loss: %.3f] [D loss: %.3f] ETA:%.3fs"%(epoch+1, args.epochs, mean_g_loss, mean_d_loss, tm))
+        print("[Epoch %d/%d] [G loss: %.3f] [D loss: %.3f] ETA:%.3fs"%(epoch+1, epochs, mean_g_loss, mean_d_loss, tm))
         g_loss_all = 0
         d_loss_all = 0
 
         # this part needs optimisation
-        if (epoch + 1) % 5 == 0:
-            show_tensor_images(fake.to(targets.dtype))
-            show_tensor_images(targets)
+        #if (epoch + 1) % 5 == 0:
+        show_tensor_images(fake.to(targets.dtype))
+        show_tensor_images(targets)
         
         epoch_g_losses.append(mean_g_loss)
         epoch_d_losses.append(mean_d_loss)
@@ -170,14 +169,16 @@ def trainPix2PixHD(dataloader, models, optimizers, schedulers, device):
         #logger.add_scalar('generator_loss', g_loss, epoch+1)
         #logger.add_scalar('discriminator_loss', d_loss, epoch+1)
         #logger.save_weights(generator.state_dict(), 'generator')
-        print("[Epoch %d/%d] [G loss: %.3f] [D loss: %.3f] ETA:%.3fs"%(epoch+1, args.epochs, mean_g_loss, mean_d_loss, tm))
+        print("[Epoch %d/%d] [G loss: %.3f] [D loss: %.3f] ETA:%.3fs"%(epoch+1, epochs, mean_g_loss, mean_d_loss, tm))
         g_loss_all = 0
         d_loss_all = 0
 
         # this part needs optimisation
-        if (epoch + 1) % 5 == 0:
-            show_tensor_images(x_fake.to(targets.dtype))
-            show_tensor_images(targets)
+        #if (epoch + 1) % 5 == 0:
+
+        show_tensor_images(x_fake.to(targets.dtype))
+        show_tensor_images(targets)
+
         epoch_g_losses.append(mean_g_loss)
         epoch_g_losses.append(mean_d_loss)
 
@@ -229,23 +230,30 @@ def trainUNET(dataloader, model, optimizer, loss_fn, device):
 
 
 
-# hyperparemeters 
-opt = config.get_options()
-
-model = opt.model 
-lr = opt.lr 
-lr_lambda = opt.lr_lambda 
-bi = opt.bilinear 
 
 
 if __name__ == '__main__':
 
-    device = ('cuda:0' if torch.cuda.is_available() else 'cup')
+    # hyperparemeters
+    opt = config.get_options()
+    model = opt.model
+    lr = opt.lr
+    # lr_lambda = opt.lr_lambda
+    bi = opt.bilinear
+    epochs = opt.epochs
+    batchsize = opt.batch_size
+
+    device = ('cuda:0' if torch.cuda.is_available() else 'cpu')
 
     # loading data
-    dir_npz = './data256/' # the name of the folder to put all data
+    dir_npz = 'C:/Users/msh21/PycharmProjects/GenMC-data-model/training data' # the name of the folder to put all data
     dataset = NPZDataset(dir_npz)
-    dataloader = DataLoader(dataset, batch_size=8, shuffle=True, num_workers=4)
+    train_loader = DataLoader(dataset, batch_size=batchsize, shuffle=True, num_workers=4)
+
+    # Lr decay
+    decay_after = 100 # number of epochs with constant l
+    def lr_lambda(epoch):
+        return 1. if epoch < decay_after else 1 - float(epoch - decay_after) / (epochs - decay_after)
 
     # models
     print('Initise models')
@@ -269,7 +277,7 @@ if __name__ == '__main__':
         # logger initialisation: defined seperately
         # logger = Logger(filename=args.dataset)
 
-        trainPix2Pix(dataloader, [generator, discriminator], [g_optimizer, d_optimizer], [g_schedulers, d_schedulers], [g_criterion, d_criterion], device)
+        trainPix2Pix(train_loader, [generator, discriminator], [g_optimizer, d_optimizer], [g_schedulers, d_schedulers], [g_criterion, d_criterion], epochs, device)
 
     if model == 'unet ':
 

@@ -7,11 +7,11 @@ class GeneratorLoss(nn.Module):
         self.alpha = alpha
         self.bce = nn.BCEWithLogitsLoss()
         #self.l1 = nn.L1Loss()
-        self.L2 = nn.L2loss()
+        self.l2 = nn.MSELoss()
 
     def forward(self, fake, real, fake_pred):
         fake_label = torch.zeros_like(fake_pred)
-        loss = self.bce(fake_pred, fake_label) + self.alpha * self.l1(fake, real)
+        loss = self.bce(fake_pred, fake_label) + self.alpha * self.l2(fake, real)
         return loss
 
 

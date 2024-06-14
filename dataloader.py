@@ -12,8 +12,6 @@ class NPZDataset(Dataset):
         self.data = np.load(str(self.files[0]))['arr_1']
         self.transform = transform
 
-    def __len__(self):
-        return len(self.data)
     def __getitem__(self, item):
 
         # label "optical properties"
@@ -23,3 +21,5 @@ class NPZDataset(Dataset):
 
         return (torch_array_input, torch_array_output)
 
+    def __len__(self):
+        return len(self.data)
