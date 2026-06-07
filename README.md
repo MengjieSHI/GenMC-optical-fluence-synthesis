@@ -192,7 +192,7 @@ If you use this code, please cite:
 @article{shi2026genmc,
   title   = {GenMC: Real-time generative Monte-Carlo surrogate for quantitative photoacoustic imaging},
   author  = {Shi, Mengjie and He, Feng and Vercauteren, Tom and Xia, Wenfeng},
-  journal = {Nature Machine Intelligence},
+  journal = {xxx},
   year    = {2026},
   note    = {Accepted; volume/DOI to be updated upon publication}
 }
