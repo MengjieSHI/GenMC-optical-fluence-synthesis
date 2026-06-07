@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "genmc"
+version = "1.0.0"
+description = "Real-time generative Monte-Carlo surrogate for optical-fluence synthesis in quantitative photoacoustic imaging"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [
+    { name = "Mengjie Shi", email = "ms1219@ic.ac.uk" },
+    { name = "Feng He" },
+    { name = "Tom Vercauteren" },
+    { name = "Wenfeng Xia", email = "wenfeng.xia@kcl.ac.uk" },
+]
+keywords = [
+    "photoacoustic imaging",
+    "Monte Carlo",
+    "optical fluence",
+    "generative adversarial network",
+    "blood oxygen saturation",
+]
+dependencies = [
+    "torch>=1.10",
+    "numpy>=1.20",
+    "scikit-image>=0.18",
+    "h5py>=3.0",
+    "matplotlib>=3.3",
+    "tqdm>=4.50",
+]
+
+[project.urls]
+Repository = "https://github.com/MengjieSHI/GenMC-optical-fluence-synthesis"
+
+[tool.setuptools.packages.find]
+include = ["genmc*"]

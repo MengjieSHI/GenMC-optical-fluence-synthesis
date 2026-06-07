@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+build/
+dist/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# Project data, checkpoints, logs (not version-controlled)
+data/
+checkpoints/
+runs/
+logs/
+*.pt
+*.pth
+*.h5
+*.npz
+*.mat
+
+# Notebooks
+.ipynb_checkpoints/

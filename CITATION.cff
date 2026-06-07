@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite both the software and the paper below."
+title: "GenMC: Real-time generative Monte-Carlo surrogate for quantitative photoacoustic imaging"
+version: 1.0.0
+license: MIT
+repository-code: "https://github.com/MengjieSHI/GenMC-optical-fluence-synthesis"
+authors:
+  - family-names: Shi
+    given-names: Mengjie
+    email: ms1219@ic.ac.uk
+    affiliation: "King's College London; Imperial College London"
+  - family-names: He
+    given-names: Feng
+    affiliation: "King's College London"
+  - family-names: Vercauteren
+    given-names: Tom
+    affiliation: "King's College London"
+  - family-names: Xia
+    given-names: Wenfeng
+    email: wenfeng.xia@kcl.ac.uk
+    affiliation: "King's College London"
+preferred-citation:
+  type: article
+  title: "GenMC: Real-time generative Monte-Carlo surrogate for quantitative photoacoustic imaging"
+  journal: "Nature Machine Intelligence"
+  year: 2026
+  notes: "Accepted; volume/DOI to be updated upon publication."
+  authors:
+    - family-names: Shi
+      given-names: Mengjie
+    - family-names: He
+      given-names: Feng
+    - family-names: Vercauteren
+      given-names: Tom
+    - family-names: Xia
+      given-names: Wenfeng

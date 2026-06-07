@@ -1,0 +1,7 @@
+# Core dependencies for GenMC
+torch>=1.10
+numpy>=1.20
+scikit-image>=0.18   # SSIM metric
+h5py>=3.0            # reading MATLAB v7.3 (.mat) files in prepare_data
+matplotlib>=3.3      # visualisation in evaluate.py / utils.py
+tqdm>=4.50           # progress bars
