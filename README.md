@@ -4,13 +4,7 @@
 [![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-1.10%2B-ee4c2c.svg)](https://pytorch.org/)
 
-Official code for the paper:
 
-> **GenMC: Real-time generative Monte-Carlo surrogate for quantitative photoacoustic imaging**
-> Mengjie Shi, Feng He, Tom Vercauteren, Wenfeng Xia.
-> *Nature Machine Intelligence* (2026). *(accepted; volume/DOI to be updated upon publication)*
-
----
 
 ## Overview
 
@@ -184,19 +178,6 @@ reference implementation of the GenMC architecture as described in the Methods.
 Some implementation details (e.g. exact channel widths) were chosen to match the
 paper's description; minor differences from the original research code may exist.
 
-## Citation
-
-If you use this code, please cite:
-
-```bibtex
-@article{shi2026genmc,
-  title   = {GenMC: Real-time generative Monte-Carlo surrogate for quantitative photoacoustic imaging},
-  author  = {Shi, Mengjie and He, Feng and Vercauteren, Tom and Xia, Wenfeng},
-  journal = {xxx},
-  year    = {2026},
-  note    = {Accepted; volume/DOI to be updated upon publication}
-}
-```
 
 ## Acknowledgements
 
