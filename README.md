@@ -159,26 +159,6 @@ examples.
 *(Average over forearm/finger/wrist/neck sites; see the paper for SSIM, MSE and
 full statistics.)*
 
-## Scope of this repository
-
-**Included:** the GenMC model, the U-Net and Pix2Pix baselines, losses, metrics,
-the data loader and `.mat → .npz` converter, and the training/evaluation scripts.
-
-**Not included** (available from the corresponding author on reasonable request):
-
-* the MATLAB/MCX scripts that generate the raw MC fluence volumes (the setup is
-  documented in [`docs/MONTE_CARLO.md`](docs/MONTE_CARLO.md));
-* the downstream sO₂ pipeline — linear unmixing and fluence compensation
-  (Methods, Eqs. 4–11) — and the phantom / in-vivo acquisition and skin-tone
-  classification code;
-* trained model weights and the study datasets.
-
-**Note on the implementation.** This repository provides a clean PyTorch
-reference implementation of the GenMC architecture as described in the Methods.
-Some implementation details (e.g. exact channel widths) were chosen to match the
-paper's description; minor differences from the original research code may exist.
-
-
 ## Acknowledgements
 
 This work was supported by the Wellcome Trust (203148/Z/16/Z), the Engineering
