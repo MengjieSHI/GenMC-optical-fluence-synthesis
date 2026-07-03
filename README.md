@@ -148,18 +148,6 @@ examples.
 *(Average over forearm/finger/wrist/neck sites; see the paper for SSIM, MSE and
 full statistics.)*
 
-## Acknowledgements
-
-This work was supported by the Wellcome Trust (203148/Z/16/Z), the Engineering
-and Physical Sciences Research Council (EPSRC, NS/A000049/1), and the
-King's–China Scholarship Council PhD Scholarship Programme (K-CSC, 202008060071).
-The human-volunteer study was approved by the King's College London Research
-Ethics Committee (HR-18/19-8881).
-
-## License
-
-Released under the [MIT License](LICENSE).
-
 ## Contact
 
 Mengjie Shi — `ms1219@ic.ac.uk`
