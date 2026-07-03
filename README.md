@@ -25,21 +25,11 @@ properties to the optical-fluence distribution. It is a **conditional GAN**:
 * **Discriminator** — a **PatchGAN** enforcing high-frequency realism on local
   16×16 patches.
 
-The predicted fluence maps compensate multi-wavelength PA signals prior to
+The predicted fluence maps compensate multi-wavelength PA signals before
 linear unmixing, yielding accurate sO₂. GenMC produces a fluence map in
 **< 30 ms** (vs. ≈ 5 min for MC), a four-orders-of-magnitude speed-up, and
 reaches PSNRs up to **36.24 dB**, outperforming U-Net and Pix2Pix baselines.
 
-```
-  Optical-property map (3ch: μa, μs', Γ)              Optical fluence (1ch)
-  ┌───────────────────────────┐                      ┌──────────────────┐
-  │  + 2D coordinate channels  │   GenMC generator    │  fluence map ϕ   │
-  │  ─────────────────────────▶│  U-Net + SPADE  ────▶│  (256 × 256)     │
-  └───────────────────────────┘   (cGAN)              └──────────────────┘
-                                        ▲
-                          PatchGAN discriminator (16×16 patches)
-                          real = MC ground truth  /  fake = generated
-```
 
 ## Repository structure
 
@@ -110,8 +100,7 @@ python -m genmc.data.prepare_data \
     --tar-key fcw_raw_norm_log_256_filtered
 ```
 
-The datasets generated and analysed in the study are available from the
-corresponding author on reasonable request.
+The datasets generated and analysed in the study are available from the authors upon reasonable request.
 
 ## Training
 
@@ -166,12 +155,6 @@ and Physical Sciences Research Council (EPSRC, NS/A000049/1), and the
 King's–China Scholarship Council PhD Scholarship Programme (K-CSC, 202008060071).
 The human-volunteer study was approved by the King's College London Research
 Ethics Committee (HR-18/19-8881).
-
-The U-Net implementation is adapted from
-[milesial/Pytorch-UNet](https://github.com/milesial/Pytorch-UNet) and the Pix2Pix
-baseline from
-[junyanz/pytorch-CycleGAN-and-pix2pix](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix);
-SPADE and CoordConv follow Park et al. (CVPR 2019) and Liu et al. (NeurIPS 2018).
 
 ## License
 
