@@ -97,7 +97,7 @@ python -m genmc.data.prepare_data \
     --mat data/raw/fluence_dataset.mat \
     --out data/processed/fluence_dataset.npz \
     --src-key optical_mask_256_filtered \
-    --tar-key fcw_raw_norm_log_256_filtered
+    --tar-key fcw_raw_norm_256_filtered
 ```
 
 The datasets generated and analysed in the study are available from the authors upon reasonable request.
