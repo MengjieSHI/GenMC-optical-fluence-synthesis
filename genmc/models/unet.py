@@ -57,7 +57,7 @@ class UNet(nn.Module):
     """
 
     def __init__(self, n_channels: int = 3, n_classes: int = 1,
-                 bilinear: bool = True, non_negative: bool = True):
+                 bilinear: bool = True, non_negative: bool = False):
         super().__init__()
         self.n_channels = n_channels
         self.n_classes = n_classes
@@ -74,7 +74,7 @@ class UNet(nn.Module):
         self.up3 = Up(256, 128 // factor, bilinear)
         self.up4 = Up(128, 64, bilinear)
         self.outc = OutConv(64, n_classes)
-        self.out_act = nn.ReLU(inplace=True) if non_negative else nn.Identity()
+        self.out_act = nn.LeakyReLU(0.2, inplace=True) if non_negative else nn.Identity()
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         x1 = self.inc(x)
