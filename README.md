@@ -31,34 +31,6 @@ linear unmixing, yielding accurate sO₂. GenMC produces a fluence map in
 reaches PSNRs up to **36.24 dB**, outperforming U-Net and Pix2Pix baselines.
 
 
-## Repository structure
-
-```
-GenMC-optical-fluence-synthesis/
-├── genmc/                     # importable package
-│   ├── config.py             # command-line configuration / hyperparameters
-│   ├── losses.py             # adversarial (BCE) + L1 losses  (Eq. 1)
-│   ├── metrics.py            # PSNR, SSIM, MSE                (Eqs. 12–14)
-│   ├── utils.py              # visualisation helpers
-│   ├── data/
-│   │   ├── dataset.py        # NPZDataset (paired property/fluence maps)
-│   │   └── prepare_data.py   # MATLAB .mat → .npz conversion
-│   └── models/
-│       ├── layers.py         # SPADE, CoordConv, U-Net blocks
-│       ├── genmc.py          # GenMC generator + PatchGAN discriminator
-│       ├── unet.py           # U-Net baseline
-│       └── pix2pix.py        # Pix2Pix baseline
-├── scripts/
-│   ├── train.py              # training entry point
-│   └── evaluate.py           # evaluation (PSNR/SSIM/MSE) + visualisation
-├── docs/
-│   └── MONTE_CARLO.md        # how the MC training data was generated
-├── requirements.txt
-├── pyproject.toml
-├── CITATION.cff
-└── LICENSE
-```
-
 ## Installation
 
 ```bash
@@ -135,20 +107,7 @@ python scripts/evaluate.py \
     --num-plot   3
 ```
 
-Reports mean PSNR, SSIM and MSE against the MC ground truth and (with
-`--num-plot`) visualises *(input, prediction, ground truth, difference)*
-examples.
-
-| Model    | PSNR (dB) ↑ |
-|----------|-------------|
-| **GenMC**| **32.89** (up to 36.24) |
-| U-Net    | 9.14        |
-| Pix2Pix  | 11.80       |
-
-*(Average over forearm/finger/wrist/neck sites; see the paper for SSIM, MSE and
-full statistics.)*
-
 ## Contact
-
+Datasets are available upon request.
 Mengjie Shi — `ms1219@ic.ac.uk`
 Corresponding author: Wenfeng Xia — `wenfeng.xia@kcl.ac.uk`
