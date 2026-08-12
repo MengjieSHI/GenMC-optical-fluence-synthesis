@@ -37,8 +37,8 @@ class _UnetSkipConnectionBlock(nn.Module):
         if outermost:
             upconv = nn.ConvTranspose2d(inner_nc * 2, outer_nc, kernel_size=4, stride=2, padding=1)
             down = [downconv]
-            # ReLU output: optical fluence is non-negative.
-            up = [uprelu, upconv, nn.ReLU(True)]
+            # GenMC: ReLU output: optical fluence is non-negative.
+            up = [uprelu, upconv, nn.LeakyReLU(0.2, True)]
             model = down + [submodule] + up
         elif innermost:
             upconv = nn.ConvTranspose2d(inner_nc, outer_nc, kernel_size=4, stride=2, padding=1, bias=use_bias)
