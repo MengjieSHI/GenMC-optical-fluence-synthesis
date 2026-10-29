@@ -51,6 +51,9 @@ training; inference runs comfortably on CPU.
 
 ## Data
 
+The in vivo datasets for sO2 quantification can be downloaded here: https://drive.google.com/drive/folders/1nmfkrrcI4LYhz_dFFtAIWPcPDz0wh_5E?usp=sharing 
+The required unwrap scripts are in the MATLAB folder in this repo. 
+
 GenMC is trained on paired *(optical-property, optical-fluence)* maps where the
 fluence is produced by MC simulation. The data-generation procedure (simulator,
 light source, numerical phantoms, optical properties) is documented in
@@ -72,7 +75,7 @@ python -m genmc.data.prepare_data \
     --tar-key fcw_raw_norm_256_filtered
 ```
 
-The in vivo datasets for sO2 quantification can be downloaded here: https://drive.google.com/drive/folders/1nmfkrrcI4LYhz_dFFtAIWPcPDz0wh_5E?usp=sharing 
+
 
 
 ## Training
