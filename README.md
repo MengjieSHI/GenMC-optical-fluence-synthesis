@@ -72,7 +72,8 @@ python -m genmc.data.prepare_data \
     --tar-key fcw_raw_norm_256_filtered
 ```
 
-The datasets generated and analysed in the study are available from the authors upon reasonable request.
+The in vivo datasets for sO2 quantification can be downloaded here: https://drive.google.com/drive/folders/1nmfkrrcI4LYhz_dFFtAIWPcPDz0wh_5E?usp=sharing 
+
 
 ## Training
 
