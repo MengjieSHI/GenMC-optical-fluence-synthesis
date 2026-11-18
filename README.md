@@ -51,7 +51,7 @@ training; inference runs comfortably on CPU.
 
 ## Data
 
-The in vivo datasets for sO2 quantification can be downloaded here: https://drive.google.com/drive/folders/1nmfkrrcI4LYhz_dFFtAIWPcPDz0wh_5E?usp=sharing 
+The in vivo datasets for sO2 quantification can be downloaded here: https://zenodo.org/records/23768761 
 The required unwrap scripts are in the MATLAB folder in this repo. 
 
 GenMC is trained on paired *(optical-property, optical-fluence)* maps where the
